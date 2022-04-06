@@ -9,7 +9,7 @@ from rest_framework import status
 from rest_framework.decorators import api_view
 
 
-##### 1) CRUD operation with api_view decorator.
+#  1) CRUD operation with api_view decorator.
 
 # create items with post data.
 @api_view(['POST'])
@@ -29,7 +29,7 @@ def AddApi(request):
 
 @api_view(['GET'])
 def ShowApi(request):
-    # check parameter in url
+    # check parameter in url.
     if request.query_params:
         # if you use query_param replacing request.get
         items = Item.objects.filter(**request.query_params.dict())
@@ -84,7 +84,7 @@ def DeleteApi(request, pk):
 #     return Response({"message": "Hello for today! See you tomorrow!"})
 
 
-########### 2)  Generic class based CRUD Operation.........
+#  2)  Generic class based CRUD Operation.........
 
 class AddApi2(generics.CreateAPIView):
     queryset = Item.objects.all()
@@ -106,16 +106,18 @@ class DeleteApi2(generics.DestroyAPIView):
     serializer_class = ItemSerializer
 
 
-####### CRUD using mixin class............
-
+#  CRUD using mixin class............
+# create
 class AddApi3(GenericAPIView, CreateModelMixin):
     queryset = Item.objects.all()
     serializer_class = ItemSerializer
 
+    # generate create auto form and post
     def post(self, request, *args, **kwargs):
         return self.create(request, *args, **kwargs)
 
 
+# list
 class ShowApi3(GenericAPIView, ListModelMixin):
     queryset = Item.objects.all()
     serializer_class = ItemSerializer
@@ -124,6 +126,7 @@ class ShowApi3(GenericAPIView, ListModelMixin):
         return self.list(request, *args, **kwargs)
 
 
+# retrieve
 class RetrieveApi3(GenericAPIView, RetrieveModelMixin):
     queryset = Item.objects.all()
     serializer_class = ItemSerializer
@@ -132,6 +135,7 @@ class RetrieveApi3(GenericAPIView, RetrieveModelMixin):
         return self.retrieve(request, pk, *args, **kwargs)
 
 
+# update
 class UpdateApi3(GenericAPIView, UpdateModelMixin):
     queryset = Item.objects.all()
     serializer_class = ItemSerializer
@@ -140,6 +144,7 @@ class UpdateApi3(GenericAPIView, UpdateModelMixin):
         return self.update(request, pk, *args, **kwargs)
 
 
+# destroy
 class DeleteApi3(GenericAPIView, DestroyModelMixin):
     queryset = Item.objects.all()
     serializer_class = ItemSerializer
@@ -148,7 +153,7 @@ class DeleteApi3(GenericAPIView, DestroyModelMixin):
         return self.destroy(request, pk, *args, **kwargs)
 
 
-####### concreate view classes....
+# concreate view classes....
 
 class ListCreateApi(generics.ListCreateAPIView):
     queryset = Item.objects.all()
